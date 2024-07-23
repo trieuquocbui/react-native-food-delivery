@@ -18,7 +18,9 @@ import {
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const loginState: LoginState = useAppSelector((state: RootState) => state.login);
+  const loginState: LoginState = useAppSelector(
+    (state: RootState) => state.login
+  );
 
   const handleChange = (name: keyof LoginModel, value: string) => {
     if (name == "username") {

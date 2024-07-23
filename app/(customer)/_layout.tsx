@@ -10,11 +10,9 @@ const LayoutRoot: React.FC = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="(customer)"
+        initialRouteName="(drawer)"
       >
-        <Stack.Screen name="(customer)" />
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="(drawer)" />
       </Stack>
     </Provider>
   );
