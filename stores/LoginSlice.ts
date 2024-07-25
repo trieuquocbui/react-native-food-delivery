@@ -5,6 +5,7 @@ import { login } from "@/services/AuthService";
 import CodeHelper from "@/helpers/CodeHelper";
 import APIResponseModel from "@/models/APIResponseModel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import navigationTheLoginSuccess from "@/helpers/DecodeHelper";
 
 export interface LoginState {
   account: LoginModel;

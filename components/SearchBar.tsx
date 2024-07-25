@@ -3,7 +3,11 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 import { Colors } from "@/constants/Colors";
 
-const SearchBar: React.FC = () => {
+interface SearchProp {
+  inputSearch: (search:String) => void
+}
+
+const SearchBar: React.FC<SearchProp> = (inputSearch) => {
   return (
     <View style={styles.searchBarContainer}>
       <View style={styles.searchBar}>
@@ -11,6 +15,7 @@ const SearchBar: React.FC = () => {
         <TextInput
           style={styles.searchInput}
           placeholder="Tìm kiếm sản phẩm..."
+          onChange={e => inputSearch}
         />
       </View>
     </View>

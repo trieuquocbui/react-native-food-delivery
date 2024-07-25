@@ -8,7 +8,7 @@ const LayoutAuth: React.FC = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="login"></Stack.Screen>
+      <Stack.Screen name="index"></Stack.Screen>
       <Stack.Screen name="register"></Stack.Screen>
     </Stack>
   );

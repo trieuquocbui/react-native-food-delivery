@@ -1,28 +1,34 @@
 import { Colors } from "@/constants/Colors";
+import { imageUrl } from "@/helpers/BaseUrlHelper";
+import ProductModel from "@/models/ProductModel";
 import { useNavigation, useRouter } from "expo-router";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
-const ProductItem: React.FC = () => {
+interface ProductItemProps {
+  item: ProductModel;
+}
+
+const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
   const router = useRouter();
-  const a = 2;
+
   return (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => router.push({ pathname: `product/${a}` })}
+      onPress={() => router.push({ pathname: `product/${item._id}` })}
     >
       <Image
         style={styles.itemImage}
-        source={require("../assets/images/th.jpg")}
+        source={{ uri: imageUrl + item.thumbnail }}
       ></Image>
       <View style={styles.itemBody}>
         <View style={styles.itemNameContainer}>
           <Text style={styles.itemName} numberOfLines={3} ellipsizeMode="tail">
-            Tên sản phẩm
+            {item.name}
           </Text>
         </View>
         <View style={styles.itemInfor}>
-          <Text style={styles.itemPrice}>26.000</Text>
-          <Text style={styles.itemSold}>Đã bán 100</Text>
+          <Text style={styles.itemPrice}>{item.price}</Text>
+          <Text style={styles.itemSold}>Đã bán: {item.sold}</Text>
         </View>
       </View>
     </TouchableOpacity>

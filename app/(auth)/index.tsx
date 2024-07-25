@@ -3,7 +3,7 @@ import CustomSocialButton from "@/components/CustomSocialButton";
 import { Colors } from "@/constants/Colors";
 import LoginModel from "@/models/LoginModel";
 import Checkbox from "expo-checkbox";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAppSelector, useAppDispatch } from "@/hooks/useRedux";
 import { RootState } from "@/stores/Store";
@@ -14,8 +14,13 @@ import {
   setPassword,
   setUsername,
 } from "@/stores/LoginSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import getRole from "@/helpers/DecodeHelper";
+import RoleHelper from "@/helpers/RoleHelper";
 
 const LoginScreen: React.FC = () => {
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
 
   const loginState: LoginState = useAppSelector(
@@ -42,6 +47,12 @@ const LoginScreen: React.FC = () => {
   const handleSubmit = async () => {
     if (validate()) {
       dispatch(loginAsync(loginState.account));
+      let token: string | null = await AsyncStorage.getItem("token");
+      let role: string = await getRole(token!);
+      if ((role = RoleHelper.USER)) {
+        router.push("/home");
+      } else if (role == RoleHelper.EMPLOYEE) {
+      }
     }
   };
 

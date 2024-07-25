@@ -1,8 +1,17 @@
+import AutoHideModal from "@/components/AutoHideModal";
 import CustomButton from "@/components/CustomButton";
-import ProductItem from "@/components/ProductItem";
 import { Colors } from "@/constants/Colors";
+import { imageUrl } from "@/helpers/BaseUrlHelper";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import {
+  getDetailAsync,
+  ProductState,
+  setDetails,
+} from "@/stores/ProductSlice";
+import { RootState } from "@/stores/Store";
 import { useLocalSearchParams } from "expo-router";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, FlatList, Alert } from "react-native";
 
 const data = [
   { id: "1", name: "a" },
@@ -14,7 +23,29 @@ const data = [
 ];
 
 const ProductDetailsScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  const productState: ProductState = useAppSelector(
+    (state: RootState) => state.product
+  );
+
+  const [alertVisible, setAlertVisible] = useState(false);
+
   const { productId } = useLocalSearchParams();
+
+  const onClickAdditionBtn = () => {
+    setAlertVisible(true);
+  };
+
+  const hideAlert = () => {
+    setAlertVisible(false);
+  };
+
+  useEffect(() => {
+    if (typeof productId === "string") {
+      dispatch(getDetailAsync(productId));
+    }
+  }, [dispatch, productId]);
 
   return (
     <View style={styles.details}>
@@ -25,35 +56,38 @@ const ProductDetailsScreen: React.FC = () => {
               <View style={styles.logo}>
                 <Image
                   style={styles.logoImage}
-                  source={require("../../../assets/images/th.jpg")}
+                  source={{ uri: imageUrl + productState.detail.thumbnail }}
                 ></Image>
               </View>
               <View style={styles.body}>
                 <View style={styles.productDetail}>
                   <View style={styles.priceContainer}>
-                    <Text style={[styles.price, styles.textWhite]}>45000</Text>
+                    <Text style={[styles.price, styles.textWhite]}>
+                      {productState.detail.price}
+                    </Text>
                   </View>
                   <View style={styles.nameContainer}>
                     <Text style={styles.name} numberOfLines={1}>
-                      Hủ tiếu khô nam vang
+                      {productState.detail.name}
                     </Text>
                   </View>
                   <View style={styles.productionContainer}>
                     <View style={styles.row}>
                       <Text>Số lượng: </Text>
-                      <Text style={styles.primaryColor}>100</Text>
+                      <Text style={styles.primaryColor}>
+                        {productState.detail.quantity}
+                      </Text>
                     </View>
                     <View style={styles.row}>
                       <Text>Đã bán: </Text>
-                      <Text style={styles.primaryColor}>100</Text>
+                      <Text style={styles.primaryColor}>
+                        {productState.detail.sold}
+                      </Text>
                     </View>
                   </View>
                   <View>
                     <Text numberOfLines={5}>
-                      Bài viết giới thiệu sản phẩm là bài viết chứa thông tin mô
-                      tả của sản phẩm. Sao cho người đọc hiểu hết được sản phẩm
-                      đó là gì, có công dụng ra sao, sử dụng như thế nào. đó là
-                      gì, có công dụng ra sao, sử dụng như thế nào.
+                      {productState.detail.description}
                     </Text>
                   </View>
                   <Text style={styles.name} numberOfLines={1}>
@@ -64,20 +98,25 @@ const ProductDetailsScreen: React.FC = () => {
             </View>
           }
           data={data}
-          renderItem={(item) => <ProductItem></ProductItem>}
+          renderItem={() => <View></View>}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           columnWrapperStyle={styles.rowList}
         ></FlatList>
       </View>
-
       <View style={styles.btnAddContainer}>
         <CustomButton
-          onPress={() => null}
+          onPress={onClickAdditionBtn}
           title="Thêm vào giỏ hàng"
         ></CustomButton>
       </View>
+
+      <AutoHideModal
+        visible={alertVisible}
+        onClose={hideAlert}
+        message="Thêm thành công"
+      />
     </View>
   );
 };
@@ -118,19 +157,16 @@ const styles = StyleSheet.create({
   logo: {
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 32,
+    marginTop: 32,
     borderRadius: 50,
   },
   logoImage: {
-    width: 280,
+    width: "100%",
     height: 280,
-    borderRadius: 160,
   },
   body: {
     flex: 1,
     padding: 20,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     backgroundColor: Colors.whiteBackground,
   },
   productDetail: {},

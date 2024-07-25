@@ -1,19 +1,28 @@
 import { Colors } from "@/constants/Colors";
+import { imageUrl } from "@/helpers/BaseUrlHelper";
+import CategoryModel from "@/models/CategoryModel";
 import { StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
-const CategoryItem: React.FC<{
-  item: any;
-  index: number;
-  length: number;
-}> = ({ item }) => {
+interface CategoryItemProps {
+  item: CategoryModel;
+  onSelectCategory: (_id: string) => void;
+}
+
+const CategoryItem: React.FC<CategoryItemProps> = ({
+  item,
+  onSelectCategory,
+}) => {
   return (
-    <TouchableOpacity style={styles.itemContainer}>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => onSelectCategory(item._id)}
+    >
       <Image
         style={[styles.itemImage]}
-        source={require("../assets/images/th.jpg")}
+        source={{ uri: imageUrl + item.thumbnail }}
       ></Image>
       <Text style={styles.itemText} numberOfLines={1} ellipsizeMode="tail">
-        {item.title}
+        {item.name}
       </Text>
     </TouchableOpacity>
   );

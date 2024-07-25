@@ -13,6 +13,11 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const LayoutTabs: React.FC = () => {
   const navigation = useNavigation();
+
+  const inputSearch = (search: string): void => {
+    console.log(search);
+  };
+
   return (
     <Tabs
       screenOptions={{
@@ -24,12 +29,12 @@ const LayoutTabs: React.FC = () => {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           headerTitle: () => null,
           headerLeft: () => (
             <View style={styles.marginL12}>
-              <SearchBar></SearchBar>
+              <SearchBar inputSearch={() => inputSearch}></SearchBar>
             </View>
           ),
           headerRight: () => (

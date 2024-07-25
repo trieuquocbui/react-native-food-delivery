@@ -1,27 +1,35 @@
 import { FlatList, StyleSheet } from "react-native";
 import CategoryItem from "./CategoryItem";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { CategoryState, getAllCategoryAsync } from "@/stores/CategorySlice";
+import { RootState } from "@/stores/Store";
+import { useEffect } from "react";
 
-const data = [
-  { id: "1", title: "Tất cả" },
-  { id: "2", title: "Bánh mì" },
-  { id: "3", title: "Cơm trưa" },
-  { id: "4", title: "Hủ tiếu" },
-  { id: "5", title: "Item 5" },
-  { id: "6", title: "Item 6" },
-];
+interface CategoryListProps {
+  onSelectCategory: (_id: string) => void;
+}
 
-const CategoryList: React.FC = () => {
+const CategoryList: React.FC<CategoryListProps> = ({ onSelectCategory }) => {
+  const dispatch = useAppDispatch();
+
+  const categoryState: CategoryState = useAppSelector(
+    (state: RootState) => state.category
+  );
+
+  useEffect(() => {
+    dispatch(getAllCategoryAsync());
+  }, [dispatch]);
+
   return (
     <FlatList
-      data={data}
-      renderItem={({ item, index }) => (
+      data={categoryState.list}
+      renderItem={({ item }) => (
         <CategoryItem
           item={item}
-          index={index}
-          length={data.length}
+          onSelectCategory={onSelectCategory}
         ></CategoryItem>
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
       horizontal
       showsHorizontalScrollIndicator={false}
     />
