@@ -3,6 +3,7 @@ import LoginReducer from "./LoginSlice";
 import RegisterReducer from "./RegisterSlice";
 import CategoryReducer from "./CategorySlice";
 import ProductReducer from "./ProductSlice";
+import CartDetails from "./CartDetailsSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     register: RegisterReducer,
     product: ProductReducer,
     category: CategoryReducer,
+    cart: CartDetails
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

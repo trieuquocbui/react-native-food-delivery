@@ -4,29 +4,37 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 import Checkbox from "expo-checkbox";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import CartDetailsModel from "@/models/CartDetailsModel";
+import { imageUrl } from "@/helpers/BaseUrlHelper";
 
-const CartItem = () => {
+interface CartDetailsProps {
+  item: CartDetailsModel;
+  handleQuantity: (_id: string, quantity: number) => void;
+}
+
+const CartItem: React.FC<CartDetailsProps> = ({ item, handleQuantity }) => {
   return (
-    <View style={styles.cartItem}>
-      <View style={styles.cartItemCheckBoxContainer}>
-        <Checkbox style={styles.checkbox}></Checkbox>
-      </View>
+    <>
       <View style={styles.cartItemImageContainer}>
         <Image
           style={styles.cartItemImage}
-          source={require("../assets/images/th.jpg")}
+          source={{ uri: imageUrl + item.product?.thumbnail }}
         />
       </View>
       <View style={styles.cartItemInforContainer}>
         <View style={styles.cartItemNameContainer}>
-          <Text style={styles.cartItemNameText}>Tên sản phẩm</Text>
+          <Text style={styles.cartItemNameText}>{item.product?.name}</Text>
         </View>
         <View style={styles.cartItemOrderContainer}>
           <View style={styles.cartItemPriceContainer}>
-            <Text style={styles.cartItemPriceText}>Giá sản phẩm</Text>
+            <Text style={styles.cartItemPriceText}>{item.product?.price}</Text>
           </View>
           <View style={styles.cartItemQuantityContainer}>
-            <TouchableOpacity style={styles.cartItemButton}>
+            <TouchableOpacity
+              style={styles.cartItemButton}
+              onPress={() => handleQuantity(item._id!, -1)}
+            >
               <FontAwesomeIcon
                 size={14}
                 icon={faMinus}
@@ -34,9 +42,12 @@ const CartItem = () => {
               />
             </TouchableOpacity>
             <View style={styles.cartItemQuantityTextContainer}>
-              <Text style={styles.cartItemQuantityText}>9</Text>
+              <Text style={styles.cartItemQuantityText}>{item.quantity}</Text>
             </View>
-            <TouchableOpacity style={styles.cartItemButton}>
+            <TouchableOpacity
+              style={styles.cartItemButton}
+              onPress={() => handleQuantity(item._id!, 1)}
+            >
               <FontAwesomeIcon
                 size={14}
                 icon={faPlus}
@@ -46,13 +57,13 @@ const CartItem = () => {
           </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  checkbox:{
-    borderWidth: 1
+  checkbox: {
+    borderWidth: 1,
   },
   cartItem: {
     margin: 4,
@@ -66,9 +77,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-  },
-  cartItemCheckBoxContainer: {
-    marginRight: 10,
   },
   cartItemImageContainer: {
     marginRight: 10,

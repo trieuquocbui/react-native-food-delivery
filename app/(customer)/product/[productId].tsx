@@ -3,12 +3,14 @@ import CustomButton from "@/components/CustomButton";
 import { Colors } from "@/constants/Colors";
 import { imageUrl } from "@/helpers/BaseUrlHelper";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { createCartDetailsAsync } from "@/stores/CartDetailsSlice";
 import {
   getDetailAsync,
   ProductState,
   setDetails,
 } from "@/stores/ProductSlice";
 import { RootState } from "@/stores/Store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, FlatList, Alert } from "react-native";
@@ -33,7 +35,10 @@ const ProductDetailsScreen: React.FC = () => {
 
   const { productId } = useLocalSearchParams();
 
-  const onClickAdditionBtn = () => {
+  const onClickAdditionBtn = async () => {
+    if (typeof productId === "string") {
+      dispatch(createCartDetailsAsync(productId));
+    }
     setAlertVisible(true);
   };
 
