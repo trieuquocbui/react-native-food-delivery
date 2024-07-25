@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import store from "@/stores/Store";
 import React from "react";
 
-const LayoutRoot: React.FC = () => {
+const LayoutCustomer: React.FC = () => {
   return (
     <Provider store={store}>
       <Stack
@@ -18,4 +18,4 @@ const LayoutRoot: React.FC = () => {
   );
 };
 
-export default LayoutRoot;
+export default LayoutCustomer;
