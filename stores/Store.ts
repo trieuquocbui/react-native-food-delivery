@@ -4,6 +4,7 @@ import RegisterReducer from "./RegisterSlice";
 import CategoryReducer from "./CategorySlice";
 import ProductReducer from "./ProductSlice";
 import CartDetails from "./CartDetailsSlice";
+import OrderSlice from "./OrderSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     register: RegisterReducer,
     product: ProductReducer,
     category: CategoryReducer,
-    cart: CartDetails
+    cart: CartDetails,
+    order: OrderSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -1,18 +1,13 @@
-import { Colors } from "@/constants/Colors";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
-import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import { View, Image, Text, StyleSheet } from "react-native";
+import React from "react";
 import CartDetailsModel from "@/models/CartDetailsModel";
 import { imageUrl } from "@/helpers/BaseUrlHelper";
 
-interface CartDetailsProps {
+interface OrderItemProps {
   item: CartDetailsModel;
-  handleQuantity: (_id: string, quantity: number) => void;
 }
 
-const CartItem: React.FC<CartDetailsProps> = ({ item, handleQuantity }) => {
+const OrderItem: React.FC<OrderItemProps> = ({ item }) => {
   return (
     <>
       <View style={styles.cartItemImageContainer}>
@@ -30,29 +25,7 @@ const CartItem: React.FC<CartDetailsProps> = ({ item, handleQuantity }) => {
             <Text style={styles.cartItemPriceText}>{item.product?.price}</Text>
           </View>
           <View style={styles.cartItemQuantityContainer}>
-            <TouchableOpacity
-              style={styles.cartItemButton}
-              onPress={() => handleQuantity(item._id!, -1)}
-            >
-              <FontAwesomeIcon
-                size={14}
-                icon={faMinus}
-                color={Colors.whiteColor}
-              />
-            </TouchableOpacity>
-            <View style={styles.cartItemQuantityTextContainer}>
-              <Text style={styles.cartItemQuantityText}>{item.quantity}</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.cartItemButton}
-              onPress={() => handleQuantity(item._id!, 1)}
-            >
-              <FontAwesomeIcon
-                size={14}
-                icon={faPlus}
-                color={Colors.whiteColor}
-              />
-            </TouchableOpacity>
+            <Text style={styles.cartItemQuantityText}>x {item.quantity}</Text>
           </View>
         </View>
       </View>
@@ -109,15 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  cartItemButton: {
-    width: 20,
-    height: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    backgroundColor: Colors.primaryBackground,
-    marginHorizontal: 5,
-  },
   cartItemQuantityTextContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -127,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartItem;
+export default OrderItem;

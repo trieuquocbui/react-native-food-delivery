@@ -4,13 +4,8 @@ import { Colors } from "@/constants/Colors";
 import { imageUrl } from "@/helpers/BaseUrlHelper";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { createCartDetailsAsync } from "@/stores/CartDetailsSlice";
-import {
-  getDetailAsync,
-  ProductState,
-  setDetails,
-} from "@/stores/ProductSlice";
+import { getDetailAsync, ProductState } from "@/stores/ProductSlice";
 import { RootState } from "@/stores/Store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, FlatList, Alert } from "react-native";
@@ -58,7 +53,7 @@ const ProductDetailsScreen: React.FC = () => {
         <FlatList
           ListHeaderComponent={
             <View style={styles.container}>
-              <View style={styles.logo}>
+              <View>
                 <Image
                   style={styles.logoImage}
                   source={{ uri: imageUrl + productState.detail.thumbnail }}
@@ -133,12 +128,11 @@ const styles = StyleSheet.create({
   },
   details: { flex: 1 },
   detailsContainer: {
-    height: "94%",
+    height: "93%",
   },
   btnAddContainer: {
-    height: "16%",
+    flex: 1,
   },
-
   primaryColor: {
     color: Colors.primaryBackground,
     fontWeight: "bold",
@@ -162,7 +156,6 @@ const styles = StyleSheet.create({
   logo: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 32,
     borderRadius: 50,
   },
   logoImage: {

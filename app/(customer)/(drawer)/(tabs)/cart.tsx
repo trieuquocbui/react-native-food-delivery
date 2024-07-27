@@ -1,4 +1,4 @@
-
+import AutoHideModal from "@/components/AutoHideModal";
 import CartItem from "@/components/CartItem";
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
@@ -11,6 +11,7 @@ import {
 } from "@/stores/CartDetailsSlice";
 import { RootState } from "@/stores/Store";
 import Checkbox from "expo-checkbox";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   FlatList,
@@ -18,10 +19,15 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 const CartScreen: React.FC = () => {
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
+
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const cartDetailsState: CartDetailsState = useAppSelector(
     (state: RootState) => state.cart
@@ -37,6 +43,25 @@ const CartScreen: React.FC = () => {
 
   const handleQuantity = (_id: string, quantity: number) => {
     dispatch(editQuantityCartDetailsAsync(_id, quantity));
+  };
+
+  const navigationOrder = () => {
+    let total = cartDetailsState.list.reduce((total, item) => {
+      if (item.checked) {
+        return (total += 1);
+      }
+      return total;
+    }, 0);
+    if (total === 0) {
+      setAlertVisible(true);
+      return;
+    } else {
+      router.push("/order");
+    }
+  };
+
+  const hideAlert = () => {
+    setAlertVisible(false);
   };
 
   useEffect(() => {
@@ -75,11 +100,16 @@ const CartScreen: React.FC = () => {
         </View>
         <View style={styles.inforContainer}>
           <Text>Tổng tiền: {cartDetailsState.total}</Text>
-          <TouchableOpacity style={styles.btnBuy}>
+          <TouchableOpacity style={styles.btnBuy} onPress={navigationOrder}>
             <Text style={styles.textWhite}>Mua hàng</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <AutoHideModal
+        visible={alertVisible}
+        onClose={hideAlert}
+        message="Vui lòng chọn sản phẩm"
+      />
     </View>
   );
 };
@@ -111,7 +141,6 @@ const styles = StyleSheet.create({
     height: "92%",
   },
   buyItemContainer: {
-    height: "18%",
     flex: 1,
     backgroundColor: Colors.whiteColor,
     flexDirection: "row",
