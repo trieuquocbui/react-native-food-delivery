@@ -13,7 +13,7 @@ import {
 } from "@/stores/CartDetailsSlice";
 import { createOrderAsync, OrderState } from "@/stores/OrderSlice";
 import { RootState } from "@/stores/Store";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import {
   FlatList,
   StyleSheet,

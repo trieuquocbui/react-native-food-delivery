@@ -1,6 +1,6 @@
 enum RoleHelper {
-  USER = 'USER',
-  EMPLOYEE = "EM"
+  USER = "USER",
+  EMPLOYEE = "EMPLOYEE",
 }
 
 export default RoleHelper;

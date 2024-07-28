@@ -9,22 +9,25 @@ import RoleHelper from "@/helpers/RoleHelper";
 const LayoutRoot: React.FC = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem("token");
-        if (token) {
-          let role: string = await getRole(token!);
-          if ((role = RoleHelper.USER)) {
-            router.push("/home");
-          } else if (role == RoleHelper.EMPLOYEE) {
-          }
-        }
-      } catch (error) {
-        console.error("Failed to load token:", error);
-      }
-    };
+  let role: string = "";
 
+  const checkToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        role = await getRole(token!);
+        if (role == RoleHelper.USER) {
+          router.push("/customer");
+        } else if (role == RoleHelper.EMPLOYEE) {
+          router.push("/employee");
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load token:", error);
+    }
+  };
+
+  useEffect(() => {
     checkToken();
   }, []);
 
@@ -34,10 +37,11 @@ const LayoutRoot: React.FC = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="(auth)"
       >
-        <Stack.Screen name="(customer)" />
-        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="customer" />
+        <Stack.Screen name="employee/index" />
+        <Stack.Screen name="register/index" />
+        <Stack.Screen name="index" />
         <Stack.Screen name="+not-found" />
       </Stack>
     </Provider>

@@ -46,12 +46,15 @@ const LoginScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (validate()) {
-      dispatch(loginAsync(loginState.account));
+      await dispatch(loginAsync(loginState.account));
       let token: string | null = await AsyncStorage.getItem("token");
       let role: string = await getRole(token!);
-      if ((role = RoleHelper.USER)) {
-        router.push("/home");
+      if (role == RoleHelper.USER) {
+        console.log(1);
+        router.push("/customer");
       } else if (role == RoleHelper.EMPLOYEE) {
+        console.log(2);
+        router.push("/employee");
       }
     }
   };
@@ -64,7 +67,7 @@ const LoginScreen: React.FC = () => {
       <View style={styles.logo}>
         <Image
           style={styles.logoImage}
-          source={require("../../assets/images/react-logo.png")}
+          source={require("../assets/images/react-logo.png")}
         ></Image>
       </View>
       <View style={styles.infor}>
@@ -114,7 +117,7 @@ const LoginScreen: React.FC = () => {
         <View style={[styles.linkContainer, styles.mt10]}>
           <Text style={styles.textlink}>
             Bạn có tài khoản chưa?{" "}
-            <Link style={styles.link} href="/(auth)/register">
+            <Link style={styles.link} href="/register">
               Đăng kí
             </Link>
           </Text>
@@ -130,14 +133,14 @@ const LoginScreen: React.FC = () => {
             <CustomSocialButton
               onPress={() => null}
               title="Đăng nhập với Google"
-              imagePath={require("../../assets/images/GG.jpg")}
+              imagePath={require("../assets/images/GG.jpg")}
             ></CustomSocialButton>
           </View>
           <View style={styles.mt10}>
             <CustomSocialButton
               onPress={() => null}
               title="Đăng nhập với FaceBook"
-              imagePath={require("../../assets/images/FB.jpg")}
+              imagePath={require("../assets/images/FB.jpg")}
             ></CustomSocialButton>
           </View>
         </View>

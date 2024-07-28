@@ -5,6 +5,7 @@ import CategoryReducer from "./CategorySlice";
 import ProductReducer from "./ProductSlice";
 import CartDetails from "./CartDetailsSlice";
 import OrderSlice from "./OrderSlice";
+import SocketIOSlice from "./SocketIOSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     category: CategoryReducer,
     cart: CartDetails,
     order: OrderSlice,
+    socket: SocketIOSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

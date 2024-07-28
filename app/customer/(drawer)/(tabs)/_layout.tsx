@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
@@ -19,9 +19,12 @@ import {
 } from "@/stores/CartDetailsSlice";
 import { RootState } from "@/stores/Store";
 import AutoHideModal from "@/components/AutoHideModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LayoutTabs: React.FC = () => {
   const navigation = useNavigation();
+
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -86,7 +89,7 @@ const LayoutTabs: React.FC = () => {
         }}
       >
         <Tabs.Screen
-          name="home"
+          name="index"
           options={{
             headerTitle: () => null,
             headerLeft: () => (
@@ -97,8 +100,11 @@ const LayoutTabs: React.FC = () => {
             headerRight: () => (
               <View style={styles.marginR12}>
                 <AvatarHeader
-                  onPress={() =>
-                    navigation.dispatch(DrawerActions.openDrawer())
+                  onPress={
+                    () => {
+                      AsyncStorage.clear(), router.push("/");
+                    }
+                    // navigation.dispatch(DrawerActions.openDrawer())
                   }
                 ></AvatarHeader>
               </View>

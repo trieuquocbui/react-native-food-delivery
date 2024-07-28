@@ -14,7 +14,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
   return (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => router.push({ pathname: `product/${item._id}` })}
+      onPress={() => router.push({ pathname: `/customer/product/${item._id}` })}
     >
       <Image
         style={styles.itemImage}

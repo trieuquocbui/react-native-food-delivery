@@ -99,7 +99,7 @@ const RegisterScreen: React.FC = () => {
         <View>
           <Pressable
             style={styles.address}
-            onPress={() => router.push("/location")}
+            onPress={() => router.push("/customer/order/location")}
           >
             <Text style={styles.text}>
               {orderState.newOrder.address2

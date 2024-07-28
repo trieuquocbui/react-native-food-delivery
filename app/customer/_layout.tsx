@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const LayoutCustomer: React.FC = () => {
   return (
@@ -7,10 +8,10 @@ const LayoutCustomer: React.FC = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="(drawer)"
     >
       <Stack.Screen name="(drawer)" />
-      <Stack.Screen name="(order)" />
+      <Stack.Screen name="order" />
+      <Stack.Screen name="product" />
     </Stack>
   );
 };

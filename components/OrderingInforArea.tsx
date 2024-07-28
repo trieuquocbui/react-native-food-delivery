@@ -17,7 +17,10 @@ const OrderingInforArea = () => {
 
   return (
     <>
-      <Pressable style={styles.inforArea} onPress={() => router.push("/infor")}>
+      <Pressable
+        style={styles.inforArea}
+        onPress={() => router.push("/customer/order/infor")}
+      >
         <View style={styles.infor}>
           {orderState.checkInforUser ? (
             <>

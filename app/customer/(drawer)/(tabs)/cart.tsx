@@ -19,7 +19,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 
 const CartScreen: React.FC = () => {
@@ -56,7 +55,7 @@ const CartScreen: React.FC = () => {
       setAlertVisible(true);
       return;
     } else {
-      router.push("/order");
+      router.push("/customer/order");
     }
   };
 

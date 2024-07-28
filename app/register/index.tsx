@@ -163,7 +163,7 @@ const RegisterScreen: React.FC = () => {
         <View style={[styles.linkContainer, styles.mt10]}>
           <Text style={styles.textlink}>
             Bạn đã có tài khoản?{" "}
-            <Link style={styles.link} href="/(auth)/login">
+            <Link style={styles.link} href="/">
               Đăng nhập
             </Link>
           </Text>
