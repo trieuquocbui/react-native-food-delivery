@@ -1,7 +1,7 @@
 import OrderModel from "@/models/OrderModel";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "./Store";
-import { createOrder } from "@/services/OrderService";
+import { createOrder, editOrderStatus } from "@/services/OrderService";
 import APIResponseModel from "@/models/APIResponseModel";
 import CodeHelper from "@/helpers/CodeHelper";
 
@@ -129,6 +129,21 @@ export const createOrderAsync =
             phoneNumber: "a",
           })
         );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const editOrderStatusAsync =
+  (orderId: string, status: number): AppThunk =>
+  async (dispatch) => {
+    try {
+      let result: APIResponseModel<OrderModel> = await editOrderStatus(
+        orderId,
+        status
+      );
+      if (result.code == CodeHelper.SUCCESS && result.data) {
       }
     } catch (error) {
       console.log(error);

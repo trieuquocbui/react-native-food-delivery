@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 
 interface MyJwtPayload {
@@ -8,16 +7,29 @@ interface MyJwtPayload {
   userId: string;
 }
 
-const getRole = async (token: string): Promise<string> => {
-  return new Promise(async (resovle, reject) => {
-    try {
-      const decodedToken = jwtDecode<MyJwtPayload>(token);
-      const role = decodedToken.role;
-      resovle(role);
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  });
+const getRole = (token: string): string => {
+  const decodedToken = jwtDecode<MyJwtPayload>(token);
+  const role = decodedToken.role;
+  return role;
 };
 
-export default getRole;
+const getUserId = (token: string): string => {
+  const decodedToken = jwtDecode<MyJwtPayload>(token);
+  const userId = decodedToken.userId;
+  return userId;
+};
+
+const getUsername = (token: string): string => {
+  const decodedToken = jwtDecode<MyJwtPayload>(token);
+  const username = decodedToken.username;
+  return username;
+};
+
+const getAccountId = (token: string): string => {
+  const decodedToken = jwtDecode<MyJwtPayload>(token);
+  const accountId = decodedToken.accountId;
+  return accountId;
+};
+
+
+export { getRole, getUserId, getAccountId };

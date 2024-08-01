@@ -4,12 +4,6 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 const NotificationItem = () => {
   return (
     <TouchableOpacity style={styles.notificationItem}>
-      <View style={styles.notificationItemImageContainer}>
-        <Image
-          style={styles.notificationItemImage}
-          source={require("../assets/images/th.jpg")}
-        />
-      </View>
       <View style={styles.notificationItemInforContainer}>
         <View>
           <Text style={styles.notificationItemNameText}>

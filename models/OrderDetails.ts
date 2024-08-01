@@ -1,5 +1,8 @@
+import ProductModel from "./ProductModel";
+
 export default class OrderDetailsModel {
-  product!: string;
+  _id?:string;
+  product!: string | ProductModel;
   quantity!: number;
   price!: number;
 }

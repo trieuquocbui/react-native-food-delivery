@@ -4,10 +4,10 @@ import APIClient from "./APIClient"
 import RegisterModel from "@/models/RegisterModel"
 import AccountModel from "@/models/AccountModel"
 
-const login = (data: LoginModel): Promise<APIResponseModel<string>> =>{
+const login = (data: LoginModel): Promise<APIResponseModel<{account: AccountModel; token:string}>> =>{
     return new Promise( async (resovle, reject) => {
         try {
-            let result = await APIClient.post<APIResponseModel<string>>('/auth/login',data);
+            let result = await APIClient.post<APIResponseModel<{account: AccountModel; token:string}>>('/auth/login',data);
             resovle(result.data)
         } catch (error) {
             reject(error)

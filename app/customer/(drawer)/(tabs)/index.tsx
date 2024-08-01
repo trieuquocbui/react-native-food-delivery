@@ -3,7 +3,6 @@ import ProductItem from "@/components/ProductItem";
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import QueryModel from "@/models/QueryModel";
-import { socket } from "@/services/Socket";
 import {
   getProductListAsync,
   ProductState,
@@ -16,6 +15,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 
 const HomeScreen: React.FC<string> = (search: string) => {
   const dispatch = useAppDispatch();
+  
   const route = useRoute();
 
   const productState: ProductState = useAppSelector(
@@ -26,16 +26,16 @@ const HomeScreen: React.FC<string> = (search: string) => {
     dispatch(setCategory(_id));
   };
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     console.log("Connected to server");
+  //   });
 
-    return () => {
-      socket.off("connect");
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("connect");
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   const loadMoreProducts = () => {
     if (!productState.pagination.isLastPage) {

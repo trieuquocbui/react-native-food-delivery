@@ -15,7 +15,7 @@ import {
   setUsername,
 } from "@/stores/LoginSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import getRole from "@/helpers/DecodeHelper";
+import { getRole } from "@/helpers/DecodeHelper";
 import RoleHelper from "@/helpers/RoleHelper";
 
 const LoginScreen: React.FC = () => {
@@ -37,8 +37,8 @@ const LoginScreen: React.FC = () => {
 
   const validate = () => {
     const errors: LoginModel = {
-      username: loginState.account.username ? "" : "Trường này cần nhập",
-      password: loginState.account.password ? "" : "Trường này cần nhập",
+      username: loginState.login.username ? "" : "Trường này cần nhập",
+      password: loginState.login.password ? "" : "Trường này cần nhập",
     };
     dispatch(setError(errors));
     return !errors.username && !errors.password;
@@ -46,14 +46,12 @@ const LoginScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (validate()) {
-      await dispatch(loginAsync(loginState.account));
+      await dispatch(loginAsync(loginState.login));
       let token: string | null = await AsyncStorage.getItem("token");
-      let role: string = await getRole(token!);
+      let role: string = getRole(token!);
       if (role == RoleHelper.USER) {
-        console.log(1);
         router.push("/customer");
       } else if (role == RoleHelper.EMPLOYEE) {
-        console.log(2);
         router.push("/employee");
       }
     }
@@ -76,7 +74,7 @@ const LoginScreen: React.FC = () => {
           <TextInput
             style={styles.inforInput}
             placeholder="Nhập tài khoản"
-            value={loginState.account.username}
+            value={loginState.login.username}
             onChangeText={(text) => handleChange("username", text)}
           ></TextInput>
           {loginState.error.username ? (
@@ -91,7 +89,7 @@ const LoginScreen: React.FC = () => {
             secureTextEntry={true}
             style={styles.inforInput}
             placeholder="Nhập mật khẩu"
-            value={loginState.account.password}
+            value={loginState.login.password}
             onChangeText={(text) => handleChange("password", text)}
           ></TextInput>
           {loginState.error.password ? (

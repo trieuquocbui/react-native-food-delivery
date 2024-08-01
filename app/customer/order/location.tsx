@@ -4,7 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import { setAddress2, setLatitude, setLongitude } from "@/stores/OrderSlice";
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { useAppDispatch } from "@/hooks/useRedux";
 import { Colors } from "@/constants/Colors";
 
 const LocationScreen: React.FC = () => {

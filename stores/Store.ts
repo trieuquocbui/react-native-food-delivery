@@ -5,17 +5,19 @@ import CategoryReducer from "./CategorySlice";
 import ProductReducer from "./ProductSlice";
 import CartDetails from "./CartDetailsSlice";
 import OrderSlice from "./OrderSlice";
-import SocketIOSlice from "./SocketIOSlice";
+import AccountSlice from "./AccountSlice";
+import AssignmentSlice from "./AssignmentSlice";
 
 const store = configureStore({
   reducer: {
-    login: LoginReducer,
+    login: LoginReducer,  
     register: RegisterReducer,
     product: ProductReducer,
     category: CategoryReducer,
     cart: CartDetails,
     order: OrderSlice,
-    socket: SocketIOSlice
+    account: AccountSlice,
+    assignment: AssignmentSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

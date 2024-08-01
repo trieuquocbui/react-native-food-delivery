@@ -3,19 +3,19 @@ import { Provider } from "react-redux";
 import store from "@/stores/Store";
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import getRole from "@/helpers/DecodeHelper";
+import { getRole } from "@/helpers/DecodeHelper";
 import RoleHelper from "@/helpers/RoleHelper";
 
 const LayoutRoot: React.FC = () => {
   const router = useRouter();
 
-  let role: string = "";
-
   const checkToken = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+
       if (token) {
-        role = await getRole(token!);
+        let role: string = getRole(token!);
+
         if (role == RoleHelper.USER) {
           router.push("/customer");
         } else if (role == RoleHelper.EMPLOYEE) {
@@ -39,7 +39,7 @@ const LayoutRoot: React.FC = () => {
         }}
       >
         <Stack.Screen name="customer" />
-        <Stack.Screen name="employee/index" />
+        <Stack.Screen name="employee" />
         <Stack.Screen name="register/index" />
         <Stack.Screen name="index" />
         <Stack.Screen name="+not-found" />

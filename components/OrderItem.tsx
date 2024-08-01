@@ -2,27 +2,38 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import React from "react";
 import CartDetailsModel from "@/models/CartDetailsModel";
 import { imageUrl } from "@/helpers/BaseUrlHelper";
+import OrderDetailsModel from "@/models/OrderDetails";
+import ProductModel from "@/models/ProductModel";
 
 interface OrderItemProps {
-  item: CartDetailsModel;
+  item: OrderDetailsModel;
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ item }) => {
+  const productModel = (value: ProductModel): ProductModel => {
+    return value;
+  };
+
   return (
     <>
       <View style={styles.cartItemImageContainer}>
         <Image
           style={styles.cartItemImage}
-          source={{ uri: imageUrl + item.product?.thumbnail }}
+          source={{
+            uri:
+              imageUrl + productModel(item.product as ProductModel).thumbnail,
+          }}
         />
       </View>
       <View style={styles.cartItemInforContainer}>
         <View style={styles.cartItemNameContainer}>
-          <Text style={styles.cartItemNameText}>{item.product?.name}</Text>
+          <Text style={styles.cartItemNameText}>
+            {productModel(item.product as ProductModel).name}
+          </Text>
         </View>
         <View style={styles.cartItemOrderContainer}>
           <View style={styles.cartItemPriceContainer}>
-            <Text style={styles.cartItemPriceText}>{item.product?.price}</Text>
+            <Text style={styles.cartItemPriceText}>{item.price}</Text>
           </View>
           <View style={styles.cartItemQuantityContainer}>
             <Text style={styles.cartItemQuantityText}>x {item.quantity}</Text>

@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import CartDetailsModel from "@/models/CartDetailsModel";
 import OrderDetailsModel from "@/models/OrderDetails";
 import OrderModel from "@/models/OrderModel";
+import ProductModel from "@/models/ProductModel";
 import {
   CartDetailsState,
   deleteCartDetailAsync,
@@ -27,6 +28,10 @@ const Ordercreen: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
+  const productModel = (value: ProductModel): ProductModel => {
+    return value;
+  };
+
   const cartDetailsState: CartDetailsState = useAppSelector(
     (state: RootState) => state.cart
   );
@@ -35,9 +40,15 @@ const Ordercreen: React.FC = () => {
     (state: RootState) => state.order
   );
 
-  const list: CartDetailsModel[] = cartDetailsState.list
+  const list: OrderDetailsModel[] = cartDetailsState.list
     .filter((item) => item.checked)
-    .map((item) => item);
+    .map((item) => {
+      return {
+        product: item.product,
+        price: item.product?.price,
+        quantity: item.quantity,
+      } as OrderDetailsModel;
+    });
 
   const submitOrder = async () => {
     let order: OrderModel = {
@@ -52,9 +63,9 @@ const Ordercreen: React.FC = () => {
       longitude: orderState.newOrder.longitude,
       orderDetails: list.map((item) => {
         let orderItem: OrderDetailsModel = {
-          product: item.product?._id!,
+          product: productModel(item.product as ProductModel)._id!,
           quantity: item.quantity!,
-          price: item.product?.price!,
+          price: productModel(item.product as ProductModel).price!,
         };
         return orderItem;
       }),

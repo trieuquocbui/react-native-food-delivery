@@ -18,4 +18,21 @@ const createOrder = (
   });
 };
 
-export { createOrder };
+const editOrderStatus = (
+  orderId: string,
+  status: number
+): Promise<APIResponseModel<OrderModel>> => {
+  return new Promise(async (resovle, reject) => {
+    try {
+      let result = await APIClient.put<APIResponseModel<OrderModel>>(
+        `/public/order/${orderId}/edit/status`,
+        { status: status }
+      );
+      resovle(result.data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export { createOrder, editOrderStatus };

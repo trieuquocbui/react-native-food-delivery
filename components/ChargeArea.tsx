@@ -3,9 +3,10 @@ import { View, Text, StyleSheet } from "react-native";
 
 interface ChargeProps {
   total: number;
+  shipping: number;
 }
 
-const ChargeArea: React.FC<ChargeProps> = ({ total }) => {
+const ChargeArea: React.FC<ChargeProps> = ({ total, shipping }) => {
   return (
     <>
       <View style={styles.charge}>
@@ -20,12 +21,12 @@ const ChargeArea: React.FC<ChargeProps> = ({ total }) => {
         </View>
         <View style={styles.container}>
           <Text style={[styles.name, styles.textSize]}>Tiền vận chuyển</Text>
-          <Text style={styles.textSize}>{AppHelper.Shipping}</Text>
+          <Text style={styles.textSize}>{shipping}</Text>
         </View>
         <View style={styles.container}>
           <Text style={[styles.name, styles.textSize]}>Tổng thanh toán</Text>
           <Text style={[styles.textSize, styles.total]}>
-            {total + AppHelper.Shipping}
+            {total + shipping}
           </Text>
         </View>
       </View>

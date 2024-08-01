@@ -1,6 +1,5 @@
 import { Stack } from "expo-router";
-import React, { useEffect } from "react";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import React from "react";
 
 const LayoutCustomer: React.FC = () => {
   return (

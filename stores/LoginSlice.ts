@@ -5,15 +5,16 @@ import { login } from "@/services/AuthService";
 import CodeHelper from "@/helpers/CodeHelper";
 import APIResponseModel from "@/models/APIResponseModel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import navigationTheLoginSuccess from "@/helpers/DecodeHelper";
+import AccountModel from "@/models/AccountModel";
+import { setAccount } from "./AccountSlice";
 
 export interface LoginState {
-  account: LoginModel;
+  login: LoginModel;
   error: LoginModel;
 }
 
 const initialState: LoginState = {
-  account: {
+  login: {
     username: "",
     password: "",
   },
@@ -27,12 +28,15 @@ export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
+    setAccount: (state, action: PayloadAction<AccountModel>) => {
+      state.login = action.payload;
+    },
     setUsername: (state, action: PayloadAction<string>) => {
-      state.account.username = action.payload;
+      state.login.username = action.payload;
       state.error.username = "";
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.account.password = action.payload;
+      state.login.password = action.payload;
       state.error.password = "";
     },
     setError: (state, action: PayloadAction<LoginModel>) => {
@@ -47,9 +51,11 @@ export const loginAsync =
   (data: LoginModel): AppThunk =>
   async (dispatch) => {
     try {
-      let result: APIResponseModel<string> = await login(data);
+      let result: APIResponseModel<{ account: AccountModel; token: string }> =
+        await login(data);
       if (result.code == CodeHelper.SUCCESS && result.data) {
-        AsyncStorage.setItem("token", result.data);
+        AsyncStorage.setItem("token", result.data.token);
+        dispatch(setAccount(result.data.account));
       }
     } catch (error: any) {
       const errors: LoginModel = {
