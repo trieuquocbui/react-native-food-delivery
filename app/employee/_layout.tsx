@@ -24,7 +24,6 @@ const LayoutCustomer: React.FC = () => {
       if (token) {
         const accountId = getAccountId(token);
         dispatch(getAccountAsync(accountId));
-        const userId = getUserId(token);
       }
     };
 
@@ -33,7 +32,27 @@ const LayoutCustomer: React.FC = () => {
   }, [dispatch, socket]);
 
   useEffect(() => {
-    socket.emit("employee-online", accountState.account);
+    const employeeOnline = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Thiết bị không cho phép truy cập");
+        return;
+      }
+      const location = await Location.getCurrentPositionAsync({});
+      const token = await AsyncStorage.getItem("token");
+      const userId: string = getUserId(token!);
+      const sendlocation = {
+        userId: userId,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      socket.emit("employee-online", {
+        account: accountState.account,
+        location: sendlocation,
+      });
+    };
+
+    employeeOnline;
 
     socket.on("assignmented", (data) => {
       Alert.alert(

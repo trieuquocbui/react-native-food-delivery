@@ -19,8 +19,6 @@ const Deliverycreen: React.FC = () => {
     (state: RootState) => state.assignment
   );
 
-  
-
   useEffect(() => {
     if (typeof assignmentId === "string") {
       dispatch(getDetailAsync(assignmentId));
@@ -70,6 +68,7 @@ const Deliverycreen: React.FC = () => {
                     (total, item) => total + item.price,
                     0
                   )}
+                  shipping={assignmentState.assigmentHistory.order.shipping}
                 ></ChargeArea>
               </View>
             }

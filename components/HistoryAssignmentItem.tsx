@@ -6,31 +6,17 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-interface HistoryOrderItemProps {
+interface HistoryAssignmentItemProps {
   item: AssignmentModel;
 }
 
-const HistoryOrderItem: React.FC<HistoryOrderItemProps> = ({ item }) => {
+const HistoryAssignmentItem: React.FC<HistoryAssignmentItemProps> = ({
+  item,
+}) => {
   const router = useRouter();
 
   const formatDate = (date: Date | string): string => {
     return format(new Date(date), "yyyy-MM-dd HH:mm:ss");
-  };
-
-  const assignmentStatus = (value: boolean): string => {
-    if (value) {
-      return "Nhận đơn";
-    }
-    return "Từ chối";
-  };
-
-  const OrderStatus = (value: number): string => {
-    if (value == CENCEL) {
-      return "Từ chối";
-    } else if (value == FINISH) {
-      return "Giao thành công";
-    }
-    return "Đang giao hàng";
   };
 
   return (
@@ -68,24 +54,6 @@ const HistoryOrderItem: React.FC<HistoryOrderItemProps> = ({ item }) => {
         <View style={styles.statusContainer}>
           <Text style={styles.fontSize10}>
             Thời gian: {formatDate(item.assignedAt!)}
-          </Text>
-          <Text
-            style={[
-              styles.fontSize10,
-              item.status ? styles.textPrimaryColor : styles.textRedColor,
-            ]}
-          >
-            {assignmentStatus(item.status!)}
-          </Text>
-          <Text
-            style={[
-              styles.fontSize10,
-              item.order.status != CENCEL
-                ? styles.textPrimaryColor
-                : styles.textRedColor,
-            ]}
-          >
-            {OrderStatus(item.order.status)}
           </Text>
         </View>
       </View>
@@ -147,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HistoryOrderItem;
+export default HistoryAssignmentItem;

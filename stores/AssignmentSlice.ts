@@ -70,6 +70,9 @@ export const AssignmentSlice = createSlice({
     setAssigmentList: (state, action: PayloadAction<AssignmentModel[]>) => {
       state.list.push(...action.payload);
     },
+    setEmptyAssigmentList: (state) => {
+      state.list = [];
+    },
     setPagination: (state, action: PayloadAction<PagenationModel>) => {
       state.pagination = action.payload;
     },
@@ -116,8 +119,8 @@ export const getDetailAsync =
 export const getNewestAsync = (): AppThunk => async (dispatch) => {
   try {
     let result: APIResponseModel<AssignmentModel> = await getNewest();
-    if (result.code == CodeHelper.SUCCESS) {
-      dispatch(setReceiveAssigment(result.data!));
+    if (result.code == CodeHelper.SUCCESS && result.data) {
+      dispatch(setReceiveAssigment(result.data));
     }
   } catch (error) {
     console.log(error);
@@ -130,6 +133,7 @@ export const {
   setPagination,
   setAssigmentList,
   setAssigmentHistory,
+  setEmptyAssigmentList,
 } = AssignmentSlice.actions;
 
 export default AssignmentSlice.reducer;

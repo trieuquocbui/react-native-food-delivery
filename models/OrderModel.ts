@@ -13,5 +13,6 @@ export default class OrderModel {
   longitude!: number;
   createdAt?: Date;
   customer?: UserModel;
+  assignmented?: Boolean;
   orderDetails!: OrderDetailsModel[];
 }

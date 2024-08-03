@@ -5,7 +5,9 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons/faLocationDot";
 import {
   AssignmentState,
+  getAssigmentListAsync,
   getNewestAsync,
+  setEmptyAssigmentList,
   setShippingAssigment,
 } from "@/stores/AssignmentSlice";
 import { RootState } from "@/stores/Store";
@@ -23,6 +25,7 @@ import {
 import { editOrderStatusAsync } from "@/stores/OrderSlice";
 import { FINISH } from "@/helpers/OrderStatusHelper";
 import socket from "@/sockets/EmployeeSocket";
+import QueryModel from "@/models/QueryModel";
 
 const DeliveryScreen: React.FC = () => {
   const router = useRouter();
@@ -51,6 +54,7 @@ const DeliveryScreen: React.FC = () => {
             )
           );
           dispatch(setShippingAssigment(null));
+          
         },
       },
     ]);

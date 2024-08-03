@@ -15,7 +15,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 
 const HomeScreen: React.FC<string> = (search: string) => {
   const dispatch = useAppDispatch();
-  
+
   const route = useRoute();
 
   const productState: ProductState = useAppSelector(
@@ -25,17 +25,6 @@ const HomeScreen: React.FC<string> = (search: string) => {
   const selectedCategory = (_id: string) => {
     dispatch(setCategory(_id));
   };
-
-  // useEffect(() => {
-  //   socket.on("connect", () => {
-  //     console.log("Connected to server");
-  //   });
-
-  //   return () => {
-  //     socket.off("connect");
-  //     socket.disconnect();
-  //   };
-  // }, []);
 
   const loadMoreProducts = () => {
     if (!productState.pagination.isLastPage) {
@@ -109,6 +98,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-function useCurrentRoute() {
-  throw new Error("Function not implemented.");
-}

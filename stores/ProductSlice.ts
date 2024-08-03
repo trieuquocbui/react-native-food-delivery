@@ -41,9 +41,9 @@ export const ProductSlice = createSlice({
     setProductList: (state, action: PayloadAction<ProductModel[]>) => {
       state.list.push(...action.payload);
     },
-    appendProductList: (state, action: PayloadAction<ProductModel[]>) => {
-      state.list.push(...action.payload);
-    },
+    // appendProductList: (state, action: PayloadAction<ProductModel[]>) => {
+    //   state.list.push(...action.payload);
+    // },
     setPagination: (state, action: PayloadAction<PagenationModel>) => {
       state.pagination = action.payload;
     },
@@ -102,7 +102,7 @@ export const {
   setProductList,
   setPagination,
   setCategory,
-  appendProductList,
+  // appendProductList,
   setSearch,
   setDetails,
 } = ProductSlice.actions;

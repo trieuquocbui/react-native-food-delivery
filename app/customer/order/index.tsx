@@ -1,3 +1,4 @@
+import AutoHideModal from "@/components/AutoHideModal";
 import ChargeArea from "@/components/ChargeArea";
 import OrderingInforArea from "@/components/OrderingInforArea";
 import OrderItem from "@/components/OrderItem";
@@ -15,6 +16,7 @@ import {
 import { createOrderAsync, OrderState } from "@/stores/OrderSlice";
 import { RootState } from "@/stores/Store";
 import { Link, useRouter } from "expo-router";
+import { useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -28,9 +30,7 @@ const Ordercreen: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const productModel = (value: ProductModel): ProductModel => {
-    return value;
-  };
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const cartDetailsState: CartDetailsState = useAppSelector(
     (state: RootState) => state.cart
@@ -44,13 +44,26 @@ const Ordercreen: React.FC = () => {
     .filter((item) => item.checked)
     .map((item) => {
       return {
+        _id: item._id,
         product: item.product,
         price: item.product?.price,
         quantity: item.quantity,
       } as OrderDetailsModel;
     });
 
+  const hideAlert = () => {
+    setAlertVisible(false);
+  };
+
   const submitOrder = async () => {
+    if (
+      !orderState.newOrder.fullName &&
+      !orderState.newOrder.phoneNumber &&
+      !orderState.newOrder.address1 &&
+      !orderState.newOrder.address2
+    ) {
+      return;
+    }
     let order: OrderModel = {
       fullName: orderState.newOrder.fullName,
       phoneNumber: orderState.newOrder.phoneNumber,
@@ -63,16 +76,16 @@ const Ordercreen: React.FC = () => {
       longitude: orderState.newOrder.longitude,
       orderDetails: list.map((item) => {
         let orderItem: OrderDetailsModel = {
-          product: productModel(item.product as ProductModel)._id!,
+          product: (item.product as ProductModel)._id!,
           quantity: item.quantity!,
-          price: productModel(item.product as ProductModel).price!,
+          price: (item.product as ProductModel).price!,
         };
         return orderItem;
       }),
     };
     dispatch(createOrderAsync(order));
     dispatch(deleteCartDetailAsync());
-    router.push({ pathname: `/${orderState.order._id}` });
+    router.push("/customer");
   };
 
   return (
@@ -90,7 +103,10 @@ const Ordercreen: React.FC = () => {
           )}
           ListFooterComponent={
             <View style={styles.container}>
-              <ChargeArea total={cartDetailsState.total}></ChargeArea>
+              <ChargeArea
+                total={cartDetailsState.total}
+                shipping={AppHelper.Shipping}
+              ></ChargeArea>
             </View>
           }
           keyExtractor={(item) => item._id!}
@@ -105,6 +121,11 @@ const Ordercreen: React.FC = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <AutoHideModal
+        visible={alertVisible}
+        onClose={hideAlert}
+        message="Vui lòng điền đầy đủ thông tin"
+      />
     </View>
   );
 };

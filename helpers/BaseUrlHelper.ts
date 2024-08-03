@@ -1,9 +1,9 @@
-const baseUrl = "http://192.168.1.18:3000/api/v1";
+const baseUrl = "http://172.20.10.2:3000/api/v1";
 
-export const imageUrl = "http://192.168.1.18:3000/api/v1/public/image/";
+export const imageUrl = "http://172.20.10.2:3000/api/v1/public/image/";
 
-export const url = "http://192.168.1.18:3000";
+export const url = "http://172.20.10.2:3000";
 
-export const employeeUrl = "http://192.168.1.18:3000/employee";
+export const employeeUrl = "http://172.20.10.2:3000/employee";
 
 export default baseUrl;

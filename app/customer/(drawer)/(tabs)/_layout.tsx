@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
-import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
+import { faClipboardList } from "@fortawesome/free-solid-svg-icons/faClipboardList";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Colors } from "@/constants/Colors";
 import SearchBar from "@/components/SearchBar";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
 import AvatarHeader from "@/components/AvatarHeader";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import {
   CartDetailsState,
@@ -148,10 +148,9 @@ const LayoutTabs: React.FC = () => {
           }}
         />
         <Tabs.Screen
-          name="notification"
+          name="histories"
           options={{
-            title: "Thông báo",
-            tabBarBadge: 3,
+            title: "Lịch sử đặt hàng",
             tabBarBadgeStyle: {
               backgroundColor: Colors.primaryBackground,
               color: Colors.whiteColor,
@@ -162,7 +161,7 @@ const LayoutTabs: React.FC = () => {
               <FontAwesomeIcon
                 color={color}
                 size={28}
-                icon={faBell}
+                icon={faClipboardList}
               ></FontAwesomeIcon>
             ),
           }}

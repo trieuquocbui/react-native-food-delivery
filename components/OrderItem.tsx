@@ -1,6 +1,5 @@
 import { View, Image, Text, StyleSheet } from "react-native";
 import React from "react";
-import CartDetailsModel from "@/models/CartDetailsModel";
 import { imageUrl } from "@/helpers/BaseUrlHelper";
 import OrderDetailsModel from "@/models/OrderDetails";
 import ProductModel from "@/models/ProductModel";

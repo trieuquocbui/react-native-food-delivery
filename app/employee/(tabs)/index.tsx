@@ -34,6 +34,7 @@ const ReceiveScreen: React.FC = () => {
   );
 
   useEffect(() => {
+    console.log(1);
     dispatch(getNewestAsync());
   }, [dispatch]);
 

@@ -1,9 +1,18 @@
 import OrderModel from "@/models/OrderModel";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "./Store";
-import { createOrder, editOrderStatus } from "@/services/OrderService";
+import {
+  createOrder,
+  editOrderStatus,
+  getOrder,
+  getStatusOrderList,
+} from "@/services/OrderService";
 import APIResponseModel from "@/models/APIResponseModel";
 import CodeHelper from "@/helpers/CodeHelper";
+import QueryModel from "@/models/QueryModel";
+import PagenationResponseModel from "@/models/PagenationResponseModel";
+import PagenationModel from "@/models/PagenationModel";
+import PagenationHelper from "@/helpers/PagenationHelper";
 
 export class ErrorModel {
   fullName!: string;
@@ -17,6 +26,9 @@ export interface OrderState {
   order: OrderModel;
   error: ErrorModel;
   checkInforUser: boolean;
+  list: OrderModel[];
+  status: number;
+  pagination: PagenationModel;
 }
 
 const initialState: OrderState = {
@@ -51,6 +63,14 @@ const initialState: OrderState = {
     longitude: 0,
     orderDetails: [],
   },
+  list: [],
+  status: 0,
+  pagination: {
+    currentPageNumber: PagenationHelper.CURRENT_PAGE_NUMBER,
+    offset: PagenationHelper.OFFSET,
+    sortField: PagenationHelper.SORT_FIELD,
+    sortOrder: PagenationHelper.SORT_ORDER,
+  },
 };
 
 export const OrderSlice = createSlice({
@@ -62,7 +82,6 @@ export const OrderSlice = createSlice({
     },
     setOrder: (state, action: PayloadAction<OrderModel>) => {
       state.order = action.payload;
-      console.log(state.order);
     },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.newOrder.phoneNumber = action.payload;
@@ -92,6 +111,17 @@ export const OrderSlice = createSlice({
     setCheckInforUser: (state, action: PayloadAction<boolean>) => {
       state.checkInforUser = action.payload;
     },
+    setOrderList: (state, action: PayloadAction<OrderModel[]>) => {
+      state.list.push(...action.payload);
+    },
+    setStatus: (state, action: PayloadAction<number>) => {
+      state.list = [];
+      state.pagination.currentPageNumber = 0;
+      state.status = action.payload;
+    },
+    setPagination: (state, action: PayloadAction<PagenationModel>) => {
+      state.pagination = action.payload;
+    },
   },
 });
 
@@ -106,6 +136,9 @@ export const {
   setError,
   setCheckInforUser,
   setNewOrder,
+  setPagination,
+  setOrderList,
+  setStatus,
 } = OrderSlice.actions;
 
 export const createOrderAsync =
@@ -114,6 +147,7 @@ export const createOrderAsync =
     try {
       let result: APIResponseModel<OrderModel> = await createOrder(order);
       if (result.code == CodeHelper.SUCCESS && result.data) {
+        console.log(1);
         dispatch(setOrder(result.data));
         dispatch(
           setNewOrder({
@@ -144,6 +178,42 @@ export const editOrderStatusAsync =
         status
       );
       if (result.code == CodeHelper.SUCCESS && result.data) {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const getOrderAsync =
+  (orderId: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      let result: APIResponseModel<OrderModel> = await getOrder(orderId);
+      if (result.code == CodeHelper.SUCCESS && result.data) {
+        dispatch(setOrder(result.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const getStatusOrderListAsync =
+  (params: QueryModel, status: number): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+      let result: APIResponseModel<PagenationResponseModel<OrderModel[]>> =
+        await getStatusOrderList(params, status);
+      if (result.code == CodeHelper.SUCCESS && result.data) {
+        console.log(1);
+        dispatch(setOrderList(result.data.content));
+        const { pagination } = getState().order;
+        const updatedPagination: PagenationModel = {
+          ...pagination,
+          currentPageNumber: result.data.page,
+          isLastPage: result.data.isLastPage,
+          totalPageNumber: result.data.totalPages,
+        };
+        dispatch(setPagination(updatedPagination));
       }
     } catch (error) {
       console.log(error);
