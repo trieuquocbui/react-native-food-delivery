@@ -17,6 +17,8 @@ import {
   setPhoneNumber,
 } from "@/stores/OrderSlice";
 import OrderModel from "@/models/OrderModel";
+import { AccountState } from "@/stores/AccountSlice";
+import { useEffect } from "react";
 const RegisterScreen: React.FC = () => {
   const router = useRouter();
 
@@ -25,6 +27,19 @@ const RegisterScreen: React.FC = () => {
   const orderState: OrderState = useAppSelector(
     (state: RootState) => state.order
   );
+
+  const accountState: AccountState = useAppSelector(
+    (state: RootState) => state.account
+  );
+
+  useEffect(() => {
+    console.log(1);
+    dispatch(setPhoneNumber(accountState.account.user.phoneNumber));
+    dispatch(setFullName(accountState.account.user.fullName));
+  }, [
+    accountState.account.user.fullName,
+    accountState.account.user.phoneNumber,
+  ]);
 
   const handleChange = (name: keyof OrderModel, value: string) => {
     if (name == "fullName") {

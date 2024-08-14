@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getRole } from "@/helpers/DecodeHelper";
 import RoleHelper from "@/helpers/RoleHelper";
+import socket from "@/sockets/EmployeeSocket";
 
 const LayoutRoot: React.FC = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ const LayoutRoot: React.FC = () => {
   };
 
   useEffect(() => {
+    socket.disconnect();
     checkToken();
   }, []);
 

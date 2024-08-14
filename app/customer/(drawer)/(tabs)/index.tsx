@@ -72,8 +72,8 @@ const HomeScreen: React.FC<string> = (search: string) => {
       numColumns={2}
       columnWrapperStyle={styles.row}
       showsVerticalScrollIndicator={false}
-      onEndReached={loadMoreProducts}
-      onEndReachedThreshold={0.1}
+      // onEndReached={loadMoreProducts}
+      // onEndReachedThreshold={0.1}
     />
   );
 };

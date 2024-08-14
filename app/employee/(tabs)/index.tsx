@@ -1,7 +1,9 @@
+import React, { useEffect } from "react";
 import ChargeArea from "@/components/ChargeArea";
 import OrderItem from "@/components/OrderItem";
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { faBoxOpen } from "@fortawesome/free-solid-svg-icons/faBoxOpen";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons/faLocationDot";
 import {
   AssignmentState,
@@ -12,7 +14,6 @@ import {
 import { RootState } from "@/stores/Store";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -33,9 +34,15 @@ const ReceiveScreen: React.FC = () => {
     (state: RootState) => state.assignment
   );
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     console.log(1);
+  //     dispatch(getNewestAsync());
+  //   }, [dispatch])
+  // );
+
   useEffect(() => {
-    console.log(1);
-    dispatch(getNewestAsync());
+    dispatch(getNewestAsync(1));
   }, [dispatch]);
 
   const submitOrder = () => {
@@ -124,8 +131,19 @@ const ReceiveScreen: React.FC = () => {
       </View>
     </View>
   ) : (
-    <View>
-      <Text>Không có đơn hàng</Text>
+    <View style={styles.emptyContainer}>
+      <FontAwesomeIcon
+        icon={faBoxOpen}
+        size={100}
+        color={Colors.primaryBackground}
+      />
+      <Text style={styles.emptyText}>Không có đơn hàng</Text>
+      <TouchableOpacity
+        style={styles.refreshButton}
+        onPress={() => dispatch(getNewestAsync(1))}
+      >
+        <Text style={styles.refreshButtonText}>Tải lại</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -198,6 +216,32 @@ const styles = StyleSheet.create({
   },
   inforContainer: {
     flexDirection: "row",
+  },
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.whiteColor,
+    paddingHorizontal: 20,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: Colors.primaryBackground,
+    marginTop: 20,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  refreshButton: {
+    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    backgroundColor: Colors.primaryBackground,
+    borderRadius: 8,
+  },
+  refreshButtonText: {
+    color: Colors.whiteColor,
+    fontWeight: "600",
   },
 });
 

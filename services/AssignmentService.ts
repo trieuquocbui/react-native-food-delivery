@@ -34,11 +34,13 @@ const getDetail = (
   });
 };
 
-const getNewest = (): Promise<APIResponseModel<AssignmentModel>> => {
+const getNewest = (
+  status: number
+): Promise<APIResponseModel<AssignmentModel>> => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await APIClient.get<APIResponseModel<AssignmentModel>>(
-        `/employee/assignment/newest`
+        `/employee/assignment/newest?status=${status}`
       );
       resolve(result.data);
     } catch (error) {

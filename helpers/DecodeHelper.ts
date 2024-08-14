@@ -32,4 +32,4 @@ const getAccountId = (token: string): string => {
 };
 
 
-export { getRole, getUserId, getAccountId };
+export { getRole, getUserId, getAccountId,getUsername };

@@ -13,15 +13,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import {
   AssignmentState,
-  getAssigmentListAsync,
   setShippingAssigment,
 } from "@/stores/AssignmentSlice";
 import { RootState } from "@/stores/Store";
 import socket from "@/sockets/EmployeeSocket";
 import { editOrderStatusAsync } from "@/stores/OrderSlice";
 import { CENCEL } from "@/helpers/OrderStatusHelper";
-import { editStatusAccountAsync } from "@/stores/AccountSlice";
-import QueryModel from "@/models/QueryModel";
 
 const LayoutTabs: React.FC = () => {
   const router = useRouter();

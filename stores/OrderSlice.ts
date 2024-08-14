@@ -112,7 +112,7 @@ export const OrderSlice = createSlice({
       state.checkInforUser = action.payload;
     },
     setOrderList: (state, action: PayloadAction<OrderModel[]>) => {
-      state.list.push(...action.payload);
+      state.list = action.payload;
     },
     setStatus: (state, action: PayloadAction<number>) => {
       state.list = [];
@@ -143,24 +143,23 @@ export const {
 
 export const createOrderAsync =
   (order: OrderModel): AppThunk =>
-  async (dispatch) => {
+  async (dispatch, getters) => {
     try {
       let result: APIResponseModel<OrderModel> = await createOrder(order);
       if (result.code == CodeHelper.SUCCESS && result.data) {
-        console.log(1);
         dispatch(setOrder(result.data));
         dispatch(
           setNewOrder({
             totalAmount: 0,
             shipping: 0,
             status: 0,
-            address1: "a",
-            address2: "b",
-            latitude: 0,
-            longitude: 0,
+            address1: getters().order.newOrder.address1,
+            address2: getters().order.newOrder.address2,
+            latitude: getters().order.newOrder.latitude,
+            longitude: getters().order.newOrder.longitude,
             orderDetails: [],
-            fullName: "a",
-            phoneNumber: "a",
+            fullName: getters().order.newOrder.fullName,
+            phoneNumber: getters().order.newOrder.phoneNumber,
           })
         );
       }
@@ -204,7 +203,6 @@ export const getStatusOrderListAsync =
       let result: APIResponseModel<PagenationResponseModel<OrderModel[]>> =
         await getStatusOrderList(params, status);
       if (result.code == CodeHelper.SUCCESS && result.data) {
-        console.log(1);
         dispatch(setOrderList(result.data.content));
         const { pagination } = getState().order;
         const updatedPagination: PagenationModel = {

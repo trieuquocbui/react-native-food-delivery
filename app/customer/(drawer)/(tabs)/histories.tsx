@@ -41,7 +41,6 @@ const HistoriesScreen: React.FC<string> = (search: string) => {
   };
 
   useEffect(() => {
-    console.log(orderState.status);
     const queryParams: QueryModel = {
       page: orderState.pagination.currentPageNumber,
       limit: orderState.pagination.offset,
@@ -63,8 +62,8 @@ const HistoriesScreen: React.FC<string> = (search: string) => {
       renderItem={({ item }) => <StatusOrderItem item={item}></StatusOrderItem>}
       keyExtractor={(item) => item._id!}
       showsVerticalScrollIndicator={false}
-      onEndReached={loadMoreOrders}
-      onEndReachedThreshold={0.1}
+      // onEndReached={loadMoreOrders}
+      // onEndReachedThreshold={0.1}
     />
   );
 };

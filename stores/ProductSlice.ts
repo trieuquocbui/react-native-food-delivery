@@ -22,6 +22,7 @@ const initialState: ProductState = {
     offset: PagenationHelper.OFFSET,
     sortField: PagenationHelper.SORT_FIELD,
     sortOrder: PagenationHelper.SORT_ORDER,
+    category: undefined,
   },
   detail: {
     _id: "",
@@ -39,7 +40,8 @@ export const ProductSlice = createSlice({
   initialState,
   reducers: {
     setProductList: (state, action: PayloadAction<ProductModel[]>) => {
-      state.list.push(...action.payload);
+      // state.list.push(...action.payload);
+      state.list = action.payload;
     },
     // appendProductList: (state, action: PayloadAction<ProductModel[]>) => {
     //   state.list.push(...action.payload);

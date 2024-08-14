@@ -1,7 +1,7 @@
 import { getAccountId, getUserId } from "@/helpers/DecodeHelper";
 import { ONLINE } from "@/helpers/StatusAccountHelper";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
-import socket from "@/sockets/EmployeeSocket";
+import socket from "../../sockets/EmployeeSocket";
 import * as Location from "expo-location";
 import { AccountState, getAccountAsync } from "@/stores/AccountSlice";
 import { getNewestAsync } from "@/stores/AssignmentSlice";
@@ -13,7 +13,6 @@ import { Alert } from "react-native";
 
 const LayoutCustomer: React.FC = () => {
   const dispatch = useAppDispatch();
-
   const accountState: AccountState = useAppSelector(
     (state: RootState) => state.account
   );
@@ -28,6 +27,7 @@ const LayoutCustomer: React.FC = () => {
     };
 
     getAccount();
+
     socket.connect();
   }, [dispatch, socket]);
 
@@ -52,7 +52,9 @@ const LayoutCustomer: React.FC = () => {
       });
     };
 
-    employeeOnline;
+    employeeOnline();
+
+    // socket.emit("employee-online", accountState.account);
 
     socket.on("assignmented", (data) => {
       Alert.alert(
@@ -62,7 +64,8 @@ const LayoutCustomer: React.FC = () => {
           {
             text: "Chấp nhận",
             onPress: () => {
-              dispatch(getNewestAsync());
+              socket.emit("shipping-account", { status: 3 });
+              // dispatch(getNewestAsync());
             },
           },
         ],
@@ -113,7 +116,7 @@ const LayoutCustomer: React.FC = () => {
             onPress: () => {
               socket.emit("shipping-account", { status: 3 });
               callback({ accepted: true });
-              dispatch(getNewestAsync());
+              // dispatch(getNewestAsync());
               clearTimeout(timeoutId);
             },
           },
